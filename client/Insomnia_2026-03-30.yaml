@@ -1,0 +1,178 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: upstreams-grpc
+meta:
+  id: wrk_d85e553d2b334c30af4ef8db36e8574c
+  created: 1774835333695
+  modified: 1774835333695
+  description: ""
+collection:
+  - url: "{{ _.grpc_path }}"
+    name: Say
+    meta:
+      id: greq_53dddfc79301494498f8f6b7e7de64f3
+      created: 1772156328620
+      modified: 1774861736026
+      isPrivate: false
+      description: ""
+      sortKey: -1771265510918.75
+    body:
+      text: '{"message":"hello123","clientId":"me"}'
+    metadata:
+      - name: X-Member-Code
+        value: mem002
+        description: ""
+        disabled: false
+      - name: Authorization
+        value: Bearer
+          eyJhbGCI*******************x4bm9pYm9XZ1ZQN2hPRnNXbmxKZ3pockROZmg1RS0xZGpsMXRDdEJZIn0.eyJleHAiOjE3NzMxNDg4NzAsImlhdCI6MTc3MzE0ODU3MCwianRpIjoib25sdHJvOmRhZjBhYWY3LWRhNGMtYjFlYi0zMDI4LThhN2ZlNmUzMWMyZCIsImlzcyI6Imh0dHA6Ly9ob3N0LmRvY2tlci5pbnRlcm5hbDo4MDgwL3JlYWxtcy9odHgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJvaWRjLXdpdGgtand0LWF1dGgiLCJzaWQiOiI0ODRjZjEwNC0xMTNjLTAwODMtNTU1NS0zZTQ1OTQ4OGU2MTIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.A_DjmR6mkl0xMjpTkaljpm6WkuOAyZ0Ap0VgzAJhk8ISxgzyRF2Uj1vGnt38YA9-eafjdCxh9ftezL_Q0yBT2Xw2dLTlyNK8CAXK0HeZOX0qZJCmSzJDvDNxVMExycL5-8Bg56WEQdBh8c1gs6NLLRRky_KMNwui6gwaUxIIA7LuxscnMtETng-I_r1m6YEKyuETJ5h5w8URxA79DFirp_bk7o2z0LW2dCIVc5tsxlyycYcMhzT7FuwrHhnbMk4P2E7Jh9Fdzz9SmH2N-3Jh3yyIUbx17-HKdVx8LdfHVyXGCPegWQLD2fW1QiCV6n81Yaq9DY8FS4yAzdHu_hWN1g
+        description: ""
+        disabled: true
+      - name: X-Custom-Header
+        value: "001"
+        description: ""
+        disabled: true
+    protoFileId: pf_438a587ec93b4c158f34a829abc120bd
+    protoMethodName: /proto.helloworld.v1.HelloWorld/Say
+    reflectionApi:
+      enabled: false
+      url: https://buf.build
+      apiKey: ""
+      module: buf.build/connectrpc/eliza
+  - url: "{{ _.grpc_path }}"
+    name: ServerStreaming
+    meta:
+      id: greq_1afb6a3823c94032a712db74f3faf2c1
+      created: 1774844682371
+      modified: 1774862871729
+      isPrivate: false
+      description: ""
+      sortKey: -1771681225846
+    body:
+      text: '{"message":"hi","clientId":"me","responseStrategy":"FREE_FLOW"}'
+    metadata:
+      - name: X-Member-Code
+        value: mem002
+        description: ""
+        disabled: true
+      - name: Authorization
+        value: Bearer
+          eyJhbGCI*******************x4bm9pYm9XZ1ZQN2hPRnNXbmxKZ3pockROZmg1RS0xZGpsMXRDdEJZIn0.eyJleHAiOjE3NzMxNDg4NzAsImlhdCI6MTc3MzE0ODU3MCwianRpIjoib25sdHJvOmRhZjBhYWY3LWRhNGMtYjFlYi0zMDI4LThhN2ZlNmUzMWMyZCIsImlzcyI6Imh0dHA6Ly9ob3N0LmRvY2tlci5pbnRlcm5hbDo4MDgwL3JlYWxtcy9odHgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJvaWRjLXdpdGgtand0LWF1dGgiLCJzaWQiOiI0ODRjZjEwNC0xMTNjLTAwODMtNTU1NS0zZTQ1OTQ4OGU2MTIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.A_DjmR6mkl0xMjpTkaljpm6WkuOAyZ0Ap0VgzAJhk8ISxgzyRF2Uj1vGnt38YA9-eafjdCxh9ftezL_Q0yBT2Xw2dLTlyNK8CAXK0HeZOX0qZJCmSzJDvDNxVMExycL5-8Bg56WEQdBh8c1gs6NLLRRky_KMNwui6gwaUxIIA7LuxscnMtETng-I_r1m6YEKyuETJ5h5w8URxA79DFirp_bk7o2z0LW2dCIVc5tsxlyycYcMhzT7FuwrHhnbMk4P2E7Jh9Fdzz9SmH2N-3Jh3yyIUbx17-HKdVx8LdfHVyXGCPegWQLD2fW1QiCV6n81Yaq9DY8FS4yAzdHu_hWN1g
+        description: ""
+        disabled: true
+      - name: X-Custom-Header
+        value: "001"
+        description: ""
+        disabled: false
+    protoFileId: pf_438a587ec93b4c158f34a829abc120bd
+    protoMethodName: /proto.helloworld.v1.HelloWorld/SayServerStreaming
+    reflectionApi:
+      enabled: false
+      url: https://buf.build
+      apiKey: ""
+      module: buf.build/connectrpc/eliza
+  - url: "{{ _.grpc_path }}"
+    name: ClientStreaming
+    meta:
+      id: greq_9f2c118e4abb4cd39429676726ba961d
+      created: 1774844774437
+      modified: 1774862909691
+      isPrivate: false
+      description: ""
+      sortKey: -1771443674459
+    body:
+      text: '{"message":"hi123","clientId":"me"}'
+    metadata:
+      - name: X-Member-Code
+        value: mem002
+        description: ""
+        disabled: true
+      - name: Authorization
+        value: Bearer
+          eyJhbGCI*******************x4bm9pYm9XZ1ZQN2hPRnNXbmxKZ3pockROZmg1RS0xZGpsMXRDdEJZIn0.eyJleHAiOjE3NzMxNDg4NzAsImlhdCI6MTc3MzE0ODU3MCwianRpIjoib25sdHJvOmRhZjBhYWY3LWRhNGMtYjFlYi0zMDI4LThhN2ZlNmUzMWMyZCIsImlzcyI6Imh0dHA6Ly9ob3N0LmRvY2tlci5pbnRlcm5hbDo4MDgwL3JlYWxtcy9odHgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJvaWRjLXdpdGgtand0LWF1dGgiLCJzaWQiOiI0ODRjZjEwNC0xMTNjLTAwODMtNTU1NS0zZTQ1OTQ4OGU2MTIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.A_DjmR6mkl0xMjpTkaljpm6WkuOAyZ0Ap0VgzAJhk8ISxgzyRF2Uj1vGnt38YA9-eafjdCxh9ftezL_Q0yBT2Xw2dLTlyNK8CAXK0HeZOX0qZJCmSzJDvDNxVMExycL5-8Bg56WEQdBh8c1gs6NLLRRky_KMNwui6gwaUxIIA7LuxscnMtETng-I_r1m6YEKyuETJ5h5w8URxA79DFirp_bk7o2z0LW2dCIVc5tsxlyycYcMhzT7FuwrHhnbMk4P2E7Jh9Fdzz9SmH2N-3Jh3yyIUbx17-HKdVx8LdfHVyXGCPegWQLD2fW1QiCV6n81Yaq9DY8FS4yAzdHu_hWN1g
+        description: ""
+        disabled: true
+      - name: X-Custom-Header
+        value: "001"
+        description: ""
+        disabled: false
+    protoFileId: pf_438a587ec93b4c158f34a829abc120bd
+    protoMethodName: /proto.helloworld.v1.HelloWorld/SayClientStreaming
+    reflectionApi:
+      enabled: false
+      url: https://buf.build
+      apiKey: ""
+      module: buf.build/connectrpc/eliza
+  - url: "{{ _.grpc_path }}"
+    name: BiDi
+    meta:
+      id: greq_4f151f11a4f8415a98f4980fd0362442
+      created: 1774844798205
+      modified: 1774862924899
+      isPrivate: false
+      description: ""
+      sortKey: -1771324898765.5
+    body:
+      text: '{"message":"hello0123","clientId":"me1"}'
+    metadata:
+      - name: X-Member-Code
+        value: mem002
+        description: ""
+        disabled: true
+      - name: Authorization
+        value: Bearer
+          eyJhbGCI*******************x4bm9pYm9XZ1ZQN2hPRnNXbmxKZ3pockROZmg1RS0xZGpsMXRDdEJZIn0.eyJleHAiOjE3NzMxNDg4NzAsImlhdCI6MTc3MzE0ODU3MCwianRpIjoib25sdHJvOmRhZjBhYWY3LWRhNGMtYjFlYi0zMDI4LThhN2ZlNmUzMWMyZCIsImlzcyI6Imh0dHA6Ly9ob3N0LmRvY2tlci5pbnRlcm5hbDo4MDgwL3JlYWxtcy9odHgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJvaWRjLXdpdGgtand0LWF1dGgiLCJzaWQiOiI0ODRjZjEwNC0xMTNjLTAwODMtNTU1NS0zZTQ1OTQ4OGU2MTIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUifQ.A_DjmR6mkl0xMjpTkaljpm6WkuOAyZ0Ap0VgzAJhk8ISxgzyRF2Uj1vGnt38YA9-eafjdCxh9ftezL_Q0yBT2Xw2dLTlyNK8CAXK0HeZOX0qZJCmSzJDvDNxVMExycL5-8Bg56WEQdBh8c1gs6NLLRRky_KMNwui6gwaUxIIA7LuxscnMtETng-I_r1m6YEKyuETJ5h5w8URxA79DFirp_bk7o2z0LW2dCIVc5tsxlyycYcMhzT7FuwrHhnbMk4P2E7Jh9Fdzz9SmH2N-3Jh3yyIUbx17-HKdVx8LdfHVyXGCPegWQLD2fW1QiCV6n81Yaq9DY8FS4yAzdHu_hWN1g
+        description: ""
+        disabled: true
+      - name: X-Custom-Header
+        value: "001"
+        description: ""
+        disabled: false
+    protoFileId: pf_438a587ec93b4c158f34a829abc120bd
+    protoMethodName: /proto.helloworld.v1.HelloWorld/SayBiDi
+    reflectionApi:
+      enabled: false
+      url: https://buf.build
+      apiKey: ""
+      module: buf.build/connectrpc/eliza
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_23321472489e448394d622b66df673d2
+    created: 1772156303059
+    modified: 1772156303059
+environments:
+  name: Base Environment
+  meta:
+    id: env_d251c43ac93646aeafff5665bcaa9c80
+    created: 1772156303057
+    modified: 1772156303057
+    isPrivate: false
+  subEnvironments:
+    - name: direct
+      meta:
+        id: env_a5a2fe72a16a4791a2884614c492f760
+        created: 1772156850143
+        modified: 1772156868020
+        isPrivate: true
+        sortKey: 1772156850143
+      data:
+        grpc_path: localhost:50051
+    - name: thru-kong
+      meta:
+        id: env_8954bcb1f5c447a4b35c223e0f216f16
+        created: 1772156878444
+        modified: 1772156894139
+        isPrivate: true
+        sortKey: 1772156850193
+      data:
+        grpc_path: localhost:8000
+    - name: direct (java)
+      meta:
+        id: env_40f2be8266784f5aa6c48c9da3c9ab59
+        created: 1774835371859
+        modified: 1774835382568
+        isPrivate: true
+        sortKey: 1772156850168
+      data:
+        grpc_path: localhost:8099

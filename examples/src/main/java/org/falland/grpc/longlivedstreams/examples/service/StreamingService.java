@@ -55,22 +55,55 @@ public class StreamingService implements Service<Hello, World> {
         }
 
         @Override
+        public StreamObserver<Hello> sayBiDi(StreamObserver<World> responseObserver) {
+            FlowControlledObserver<World> controlledStream = new FlowControlledObserver<>((CallStreamObserver<World>) responseObserver);
+            ControlledStreamObserver<World> serverPush = BackpressingStreamObserver.<World>builder()
+                    .withObserver(controlledStream)
+                    .withStrategy(new ExceptionOnOverflow<>(queueSize))
+                    .build();
+            streamer.register(serverPush);
+
+            return new StreamObserver<>() {
+                @Override
+                public void onNext(Hello value) {
+                    System.out.println("BiDi received from [" + value.getClientId() + "]: " + value.getMessage());
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                    System.out.println("BiDi stream error: " + t.getMessage());
+                    serverPush.onError(t);
+                }
+
+                @Override
+                public void onCompleted() {
+                    System.out.println("BiDi client stopped sending, server stream remains open");
+                }
+            };
+        }
+
+        @Override
         public StreamObserver<Hello> sayClientStreaming(StreamObserver<World> responseObserver) {
-            responseObserver.onNext(World.newBuilder().build());
             return new StreamObserver<>() {
                 @Override
                 public void onNext(Hello value) {
                     messages.add(value);
+                    System.out.println("ClientStreaming received from [" + value.getClientId() + "]: " + value.getMessage());
                 }
 
                 @Override
                 public void onError(Throwable t) {
                     System.out.println("Stream closed with error " + t.getMessage());
+                    responseObserver.onError(t);
                 }
 
                 @Override
                 public void onCompleted() {
-                    System.out.println("Stream completed");
+                    System.out.println("Stream completed, received " + messages.size() + " messages");
+                    responseObserver.onNext(World.newBuilder()
+                            .setReply("received " + messages.size() + " messages")
+                            .build());
+                    responseObserver.onCompleted();
                 }
             };
         }

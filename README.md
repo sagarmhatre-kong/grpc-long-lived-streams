@@ -1,47 +1,85 @@
-# grpc-long-lived-streams
-This repository provides harness for building long-lived streaming apps on gRPC for Java
-The main point for his library to exit is the asynchronous nature of Java gRPC StreamObserver.onNext(U update) method implementation
-This provides non-blocking API call to the calling code, but this mechanism does not have any back pressure capabilities whatsoever.
-That leads to a very unpleasant side effects for dense and long-lived streams.
-When message producer spikes up on the rate in which updates are produced the internal gRPC/Netty send queue become to grow.
-If gRPC client is slow or the network is not fast enough the queue might eat up all the Java heap.
-When this happens the application starts to consume a lot of CPU and spins GC heavily, basically rendering the app unresposive.
-Or even worse the whole app can crash with OOM. 
+```sh
+# We need Docker Desktop running
+clear && docker build -t grpc-helloworld . && docker run -p 8099:8099 grpc-helloworld
 
-THe built-in gRPC mechanisms are very rudimentary to build a robust solution straight away.
-StreamObserver has an extension to tell whether the stream is ready to take in next message and call some code once it is ready.
-
-This library provides the toolset built on top of those mechanisms.
-The library is structured in four modules:
-
-## Core
-
-This module provides tooling that allows you to provide proper back-pressure to producer.
-With this library you can decorate the vanilla StreamObserver:
-```java
-BackpressingStreamObserver.<~>builder()
-                        .withObserver(controlledStream)
-                        .withStrategy(new BlockProducerOnOverflow<>(queueSize))
-                        .build();
 ```
-This snippet shows that there are two classes that contain all the magic.
-First is [BackpressureStrategy](core/src/main/java/org/falland/grpc/longlivedstreams/core/strategy/BackpressureStrategy.java) (interface for BlockProducerOnOverflow) - defines the strategy for backpressure
-You can choose a strategy from the existing strategies or implement your own
-Second is [BackpressingStreamObserver](core/src/main/java/org/falland/grpc/longlivedstreams/core/streams/BackpressingStreamObserver.java) - this class works with gRPC mechanisms in order to ensure that messages are sent once the underlying layer is ready to receive them.
 
-## Server
 
-This module allows you to build server streaming solution that support multiple clients.
-Check [Streamer](server/src/main/java/org/falland/grpc/longlivedstreams/server/streaming/Streamer.java) class for more information
+Here's a complete breakdown of the gRPC API this repo exposes:
 
-## Client
+* * *
 
-This module allows you to build clients that can both listen to server streams and reconnect if needed, but also to stream themselves.
-The client-side streaming supports same back-pressure strategies as server-side streaming.
-Main class are [AbstractGrpcSubscriptionClient](client/src/main/java/org/falland/grpc/longlivedstreams/client/AbstractGrpcSubscriptionClient.java) and [ClientReceivingObserver](client/src/main/java/org/falland/grpc/longlivedstreams/client/streaming/ClientReceivingObserver.java)
+## Service: `HelloWorld`
 
-## Examples
+**Proto:** [examples/proto/helloworld/v1/helloworld.proto](vscode-webview://01gs8f1ti3nsnlsek1uhvb1bckger7a1cnkgqdknhm2kesa6rqgl/examples/proto/helloworld/v1/helloworld.proto) **Java package:** `com.falland.gprc.longlivedstreams.proto.helloworld.v1`
 
-To see the code in action go to examples module
-Run [test](examples/src/main/java/org/falland/grpc/longlivedstreams/examples/apps) apps
-You can compare the behavior of different approaches and backpressure strategies
+### Endpoints
+
+RPCPatternRequestResponse
+
+`Say`
+Unary
+`Hello`
+`World`
+
+`SayServerStreaming`
+Server streaming
+`Hello`
+`stream World`
+
+`SayClientStreaming`
+Client streaming
+`stream Hello`
+`World`
+
+`SayBiDi`
+Bidirectional streaming
+`stream Hello`
+`stream World`
+
+### Messages
+
+**`Hello`** (request):
+
+  * `string message`
+  * `string clientId`
+  * `ResponseStrategy responseStrategy` — controls backpressure behavior
+
+**`World`** (response):
+
+  * `string reply`
+  * `bytes payload`
+  * `int32 group`
+
+**`ResponseStrategy` enum** (key concept for this library):
+
+ValueBehavior
+
+`FREE_FLOW`
+No backpressure, messages flow freely
+
+`EXCEPTION_ON_OVERFLOW`
+Throws exception on queue overflow
+
+`DROP_NEW_ON_OVERFLOW`
+Discards incoming messages when full
+
+`DROP_OLD_ON_OVERFLOW`
+Evicts oldest messages to make room
+
+`MERGE`
+Merges messages by group key
+
+`BLOCK`
+Blocks the producer until consumer catches up
+
+* * *
+
+## For building a client
+
+The repo has two server implementations to be aware of:
+
+  * [NaiveService](vscode-webview://01gs8f1ti3nsnlsek1uhvb1bckger7a1cnkgqdknhm2kesa6rqgl/examples/src/main/java/org/falland/grpc/longlivedstreams/examples/service/NaiveService.java) — simple broadcast server, no backpressure
+  * [StreamingService](vscode-webview://01gs8f1ti3nsnlsek1uhvb1bckger7a1cnkgqdknhm2kesa6rqgl/examples/src/main/java/org/falland/grpc/longlivedstreams/examples/service/StreamingService.java) — full backpressure support, reads `responseStrategy` from the `Hello` message to pick behavior
+
+Your client needs to handle all 4 RPC patterns. The interesting ones are the streaming endpoints — the `responseStrategy` field in `Hello` lets you tell the server how to handle overflow on your stream.
